@@ -1,11 +1,13 @@
 pub mod bet;
 pub mod event;
 pub mod pool;
-pub mod house;
+pub mod market;
 pub mod user;
+pub mod vault;
 
 pub use bet::*;
 pub use event::*;
 pub use pool::*;
-pub use house::*;
+pub use market::*;
 pub use user::*;
+pub use vault::*;

@@ -1,7 +1,17 @@
 use anchor_lang::error_code;
 
 #[error_code]
-pub enum BetError {
+pub enum ErrorCode {
+    #[msg("Event is already resolved")]
+    EventAlreadyResolved,
+    #[msg("Invalid winning outcome")]
+    InvalidWinningOutcome,
+    #[msg("Insufficient balance in the vault")]
+    InsufficientVaultBalance,
+    #[msg("Payout calculation overflow")]
+    PayoutOverflow,
+    #[msg("Payout mismatch")]
+    PayoutMismatch,
     #[msg("Cannot Enter")]
     CannotPlacebet,
     #[msg("Cannot Enter")]
@@ -16,4 +26,11 @@ pub enum BetError {
     InvalidOutcomeIndex,
     #[msg("Bet has not been resolved yet.")]
     BetNotResolved,
+    #[msg("Unauthorized event resolution attempt")]
+    UnauthorizedResolution,
+    #[msg("Invalid instruction data")]
+    InvalidInstructionData,
+    #[msg("Insufficient Liquidity")]
+    InsufficientLiquidity,
+    
 }
