@@ -10,6 +10,7 @@ use crate::state::{Bet, Event, User, Vault, LiquidityPool, Market};
 use crate::errors::ErrorCode;
 
 #[derive(Accounts)]
+#[instruction(outcome:u8)]
 pub struct PlaceBet<'info> {
     #[account(
         init,
@@ -58,11 +59,11 @@ pub struct PlaceBet<'info> {
         bump
     )]
     pub liquidity_pool: Account<'info, LiquidityPool>,
-    #[account(
-        mut,
-        seeds = [b"house_pool"],
-        bump
-    )]
+    // #[account(
+    //     mut,
+    //     seeds = [b"house_pool"],
+    //     bump
+    // )]
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
 }
@@ -70,6 +71,8 @@ pub struct PlaceBet<'info> {
 impl<'info> PlaceBet<'info> {
     pub fn place_bet(
         &mut self,
+        user:User,
+        market: Market,
         outcome: u8,
         amount: u64,
         bump: u8,
@@ -99,8 +102,8 @@ impl<'info> PlaceBet<'info> {
         // Calculate new odds based on liquidity pool
         let new_odds = self.calculate_odds(outcome, amount)?;
 
-        self.bet.bettor = self.user;
-        self.bet.market = self.market;
+        self.bet.bettor = user;
+        self.bet.market = market;
         self.bet.outcome= outcome;
         self.bet.amount = amount;
         self.bet.odds = new_odds;

@@ -5,7 +5,7 @@ use crate::state::{Market, User};
 
 #[account]
 #[derive(InitSpace)]
-pub struct Bet {
+pub struct  Bet {
     pub bettor: User,
     pub market: Market,
     pub user_usdt_account: Pubkey,

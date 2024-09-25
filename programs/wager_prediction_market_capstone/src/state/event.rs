@@ -6,7 +6,8 @@ pub struct Event {
     pub creator: Pubkey,
     pub id: u64, //unique identifier for an event
     #[max_len(6,50)]
-    pub outcomes: Vec<String>, 
+    pub outcomes: Vec<String>,
+    pub winning_outcome:u8,
     #[max_len(10, 6)]
     pub odds: Vec<u64>,
     pub is_active: bool,

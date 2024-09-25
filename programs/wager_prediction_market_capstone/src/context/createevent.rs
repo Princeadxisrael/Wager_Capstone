@@ -39,12 +39,10 @@ pub struct CreateEvent<'info> {
         bump
     )]
     pub liquidity_pool: Account<'info, LiquidityPool>,
-    
-    /// CHECK: This is not dangerous because we don't read or write from this account
+  
     #[account(mut)]
     pub market_authority: AccountInfo<'info>,
 
-    /// CHECK: This is not dangerous because we don't read or write from this account
     #[account(mut)]
     pub house_pool: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
@@ -66,7 +64,7 @@ impl<'info> CreateEvent<'info> {
             possible_outcomes,
             odds,
             ..
-        } = market_params;
+        } = market_params.clone();
 
         // Set up the event
         self.event.set_data(

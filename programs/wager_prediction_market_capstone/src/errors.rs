@@ -26,6 +26,8 @@ pub enum ErrorCode {
     InvalidOutcomeIndex,
     #[msg("Bet has not been resolved yet.")]
     BetNotResolved,
+    #[msg("Bet has been resolved already.")]
+    BetAlreadyResolved,
     #[msg("Unauthorized event resolution attempt")]
     UnauthorizedResolution,
     #[msg("Invalid instruction data")]
