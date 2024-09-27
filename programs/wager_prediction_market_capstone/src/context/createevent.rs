@@ -1,5 +1,6 @@
 use anchor_lang::prelude::*;
-use crate::state::{Event, LiquidityPool, Market, MarketParams, Vault};
+use crate::state::{LiquidityPool, Market, MarketParams, Vault};
+use crate::state::event::Event;
 
 #[derive(Accounts)]
 #[instruction(event_id: u64, market_id: u64)]
@@ -39,11 +40,12 @@ pub struct CreateEvent<'info> {
         bump
     )]
     pub liquidity_pool: Account<'info, LiquidityPool>,
-  
+    ///CHECK:This doesnt harm the program
     #[account(mut)]
     pub market_authority: AccountInfo<'info>,
 
     #[account(mut)]
+    ///CHECK:This doesnt harm the program
     pub house_pool: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
 }
@@ -86,7 +88,7 @@ impl<'info> CreateEvent<'info> {
         // Add event to pool
         self.liquidity_pool.add_event(self.event.key())?;
 
-        Ok(())
+       Ok(())
     }
 }
 

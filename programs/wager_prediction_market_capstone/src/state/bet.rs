@@ -1,13 +1,10 @@
 use anchor_lang::prelude::*;
 
-use crate::state::{Market, User};
-
-
 #[account]
 #[derive(InitSpace)]
 pub struct  Bet {
-    pub bettor: User,
-    pub market: Market,
+    pub bettor: Pubkey,
+    pub market: Pubkey,
     pub user_usdt_account: Pubkey,
     pub user_main_account: Pubkey,
     pub amount:u64,

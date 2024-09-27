@@ -5,6 +5,7 @@ use anchor_lang::prelude::*;
 pub struct Vault {
     pub event: Pubkey,
     pub balance: u64,
+    pub bump:u8
 }
 
 impl Vault {

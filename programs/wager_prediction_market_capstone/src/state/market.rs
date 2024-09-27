@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::{AnchorDeserialize, AnchorSerialize};
 
-use crate::state::EventType;
+use crate::state::event::EventType;
 
 #[account]
 #[derive(InitSpace)]

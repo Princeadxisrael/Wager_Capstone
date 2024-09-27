@@ -6,7 +6,8 @@ use anchor_spl::token::{
     Transfer
 };
 
-use crate::state::{Bet, Event, User, Vault, LiquidityPool, Market};
+use crate::state::{Bet, User, Vault, LiquidityPool, Market};
+use crate::state::event::Event;
 use crate::errors::ErrorCode;
 
 #[derive(Accounts)]
@@ -30,17 +31,7 @@ pub struct PlaceBet<'info> {
     pub vault: Account<'info, Vault>,
     #[account(mut)]
     pub bettor: Signer<'info>,
-    #[account(
-        mut,
-        constraint = bettor_token_account.owner == bettor.key()
-    )]
-    pub bettor_token_account: Account<'info, TokenAccount>,
-    #[account(
-        mut,
-        seeds = [b"vault", event.key().as_ref()],
-        bump
-    )]
-    pub vault_token_account: Account<'info, TokenAccount>,
+ 
     #[account(
         mut,
         seeds = [b"user", bettor.key().as_ref()],
@@ -59,23 +50,17 @@ pub struct PlaceBet<'info> {
         bump
     )]
     pub liquidity_pool: Account<'info, LiquidityPool>,
-    // #[account(
-    //     mut,
-    //     seeds = [b"house_pool"],
-    //     bump
-    // )]
+   
     pub system_program: Program<'info, System>,
-    pub token_program: Program<'info, Token>,
 }
 
 impl<'info> PlaceBet<'info> {
     pub fn place_bet(
         &mut self,
-        user:User,
-        market: Market,
+        // user:Pubkey,
+        // market: Pubkey,
         outcome: u8,
         amount: u64,
-        bump: u8,
     ) -> Result<()> {
 
         // Check if the event is active
@@ -102,8 +87,8 @@ impl<'info> PlaceBet<'info> {
         // Calculate new odds based on liquidity pool
         let new_odds = self.calculate_odds(outcome, amount)?;
 
-        self.bet.bettor = user;
-        self.bet.market = market;
+        self.bet.bettor = self.user.wallet;
+        self.bet.market = self.market.key();
         self.bet.outcome= outcome;
         self.bet.amount = amount;
         self.bet.odds = new_odds;
@@ -132,19 +117,19 @@ impl<'info> PlaceBet<'info> {
             .checked_add(amount)
             .ok_or(ErrorCode::PayoutOverflow)?;
         
-        // Transfer tokens from bettor to vault
+        //Deposit: Transfer tokens from bettor to vault
         let cpi_accounts = Transfer {
-            from: self.bettor_token_account.to_account_info(),
-            to: self.vault_token_account.to_account_info(),
+            from: self.bettor.to_account_info(),
+            to: self.vault.to_account_info(),
             authority: self.bettor.to_account_info(),
         };
-        let cpi_program = self.token_program.to_account_info();
+        let cpi_program = self.system_program.to_account_info();
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
         transfer(cpi_ctx, amount)?;
         Ok(())
     }
 
-    fn calculate_odds(&self, outcome: u8, bet_amount: u64) -> Result<u64> {
+    pub fn calculate_odds(&self, outcome: u8, bet_amount: u64) -> Result<u64> {
         let event = &self.event;
         let liquidity_pool = &self.liquidity_pool;
 
