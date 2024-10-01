@@ -8,6 +8,9 @@ Wager Markets seeks to provide a smooth and easy sport prediction experience for
 Program Id: 86Uce9bTCk2uo8DfjMyvj1R3f9njWhSfWVySDS8epP8S
 ```
 
+
+[Pitch Deck](https://drive.google.com/file/d/1LedrUd8oNfdg_vJxgW0FCP9jTR8ZCs63/view?usp=sharing)
+
 ## Acknowledgements
 
  - [Turbin3](https://turbin3.com)

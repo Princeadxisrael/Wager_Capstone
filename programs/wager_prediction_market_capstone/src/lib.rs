@@ -21,9 +21,9 @@ pub mod wager_prediction_market_capstone {
         ctx.accounts.create_event(event_id, house_pool, market_params)?;
         Ok(())
     }
-    pub fn placebet(ctx: Context<PlaceBet>, outcome:u8, amount:u64,bet_amount:u64) -> Result<()> {
+    pub fn placebet(ctx: Context<PlaceBet>, outcome:u8, amount:u64) -> Result<()> {
         ctx.accounts.place_bet( outcome, amount)?;
-        ctx.accounts.calculate_odds(outcome, bet_amount)?;
+        ctx.accounts.calculate_odds(outcome,amount)?;
         Ok(())
     }
     pub fn resolveevent(ctx: Context<ResolveEvent>, winning_outcome:u8) -> Result<()> {

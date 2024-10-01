@@ -1,8 +1,6 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{
-    transfer, 
-    Token, 
-    TokenAccount, 
+    transfer,
     Transfer
 };
 
@@ -129,15 +127,15 @@ impl<'info> PlaceBet<'info> {
         Ok(())
     }
 
-    pub fn calculate_odds(&self, outcome: u8, bet_amount: u64) -> Result<u64> {
+    pub fn calculate_odds(&self, outcome: u8, amount: u64) -> Result<u64> {
         let event = &self.event;
         let liquidity_pool = &self.liquidity_pool;
 
         let total_bets: u64 = event.total_bets.iter().sum();
-        let new_total_bets = total_bets.checked_add(bet_amount).ok_or(ErrorCode::PayoutOverflow)?;
+        let new_total_bets = total_bets.checked_add(amount).ok_or(ErrorCode::PayoutOverflow)?;
 
         let outcome_bets = event.total_bets[outcome as usize];
-        let new_outcome_bets = outcome_bets.checked_add(bet_amount).ok_or(ErrorCode::PayoutOverflow)?;
+        let new_outcome_bets = outcome_bets.checked_add(amount).ok_or(ErrorCode::PayoutOverflow)?;
 
         // Calculate the new odds based on the proportion of bets on this outcome
         let new_odds = (new_total_bets as f64 / new_outcome_bets as f64 * 100.0) as u64;

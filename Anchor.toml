@@ -4,7 +4,7 @@
 resolution = true
 skip-lint = false
 
-[programs.devnet]
+[programs.localnet]
 wager_prediction_market_capstone = "86Uce9bTCk2uo8DfjMyvj1R3f9njWhSfWVySDS8epP8S"
 
 
@@ -12,7 +12,7 @@ wager_prediction_market_capstone = "86Uce9bTCk2uo8DfjMyvj1R3f9njWhSfWVySDS8epP8S
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "Localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
